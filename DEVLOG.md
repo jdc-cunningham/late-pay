@@ -12,3 +12,9 @@ two things:
 
 supports
 - drag-drop to sort
+
+3:42 PM
+
+some concepts
+
+<img src="./doodles.JPG"/>
