@@ -5,10 +5,13 @@ import { getCash } from '../../../../utils/storage';
 
 const localStorageItemName = 'late-pay-cash-js';
 
-const setCash = (newBill, setShowForm, setFormData) => {
+const addCash = (newCash, setCash) => {
   const cash = getCash();
-  localStorage.setItem(localStorageItemName, JSON.stringify([...cash, newBill]));
+  localStorage.setItem(localStorageItemName, JSON.stringify([...cash, newCash]));
+  setCash(getCash());
+}
 
+const clearForm = (setFormData, setShowForm) => {
   setFormData({
     name: '',
     amount: 0,
@@ -18,13 +21,13 @@ const setCash = (newBill, setShowForm, setFormData) => {
   setShowForm(false);
 }
 
-const addCashForm = (setShowForm, formData, updateForm, setFormData) => (
+const addCashForm = (setShowForm, formData, updateForm, setCash) => (
   <div className="app__body-cash-form">
     <h2>cash info</h2>
     <input type="text" placeholder="name" value={formData.name} onChange={(e) => updateForm('name', e.target.value)}/>
     <input type="number" placeholder="amount" value={formData.amount} onChange={(e) => updateForm('amount', e.target.value)}/>
     <input type="date" placeholder="mm/dd/yyyy" value={formData.date} onChange={(e) => updateForm('date', e.target.value)}/>
-    <button className="app__body-cash-form-save" type="button" title="add cash" onClick={() => setCash(formData, setShowForm, setFormData)}>save</button>
+    <button className="app__body-cash-form-save" type="button" title="add cash" onClick={() => addCash(formData, setCash)}>save</button>
     <button className="app__body-cash-form-close" type="button" title="cancel" onClick={() => setShowForm(false)}>
       <img alt="close form" src={CloseIcon}/>
     </button>
@@ -47,7 +50,7 @@ const removeBill = (cashName, setCash) => {
   }
 }
 
-export const renderCash = (cash, editable = true) => (
+export const renderCash = (cash, editable = true, setCash) => (
   <>
     {!cash.length && <h1>no cash</h1>}
     {cash.length > 0 && cash.map((cash, index) => (
@@ -81,6 +84,10 @@ const BodyCash = () => {
   }
 
   useEffect(() => {
+    clearForm(setFormData, setShowForm);
+  }, [cash]);
+
+  useEffect(() => {
     if (!showForm) {
       setCash(getCash());
     }
@@ -92,9 +99,9 @@ const BodyCash = () => {
 
   return (
     <div className="app__body-cash">
-      {showForm && addCashForm(setShowForm, formData, updateForm, setFormData)}
+      {showForm && addCashForm(setShowForm, formData, updateForm, setCash)}
       <div className="app__body-cash-container">
-        {renderCash(cash, true)}
+        {renderCash(cash, true, setCash)}
       </div>
       <div className="app__body-cash-footer">
         <button type="button" onClick={() => setShowForm(true)}>add cash</button>

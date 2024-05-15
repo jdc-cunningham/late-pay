@@ -8,8 +8,6 @@ const BodyHome = () => {
   const bills = getBills();
   const cash = getCash();
 
-  console.log('home', bills);
-
   const getSum = (arr) => {
     let sum = 0;
     arr.forEach(source => sum += parseFloat(source.amount));
