@@ -37,6 +37,13 @@ const addBillsForm = (setShowForm, formData, updateForm, setFormData) => (
   </div>
 );
 
+const formatDate = (date) => {
+  const dateParts = date.split('-');
+  const months = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  return `${months[parseInt(dateParts[1])]} ${dateParts[2]}`;
+}
+
 const BodyBills = () => {
   const [bills, setBills] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -55,6 +62,12 @@ const BodyBills = () => {
   }
 
   useEffect(() => {
+    if (!showForm) {
+      setBills(getBills());
+    }
+  }, [showForm])
+
+  useEffect(() => {
     setBills(getBills());
   }, []);
 
@@ -65,7 +78,9 @@ const BodyBills = () => {
         {!bills.length && <h1>no bills</h1>}
         {bills.length > 0 && bills.map((bill, index) => (
           <div key={index} className="app__body-bill">
-            {bill.name}
+            <span className="app__body-bill-name">{bill.name}</span>
+            <span className="app__body-bill-amount">${bill.amount}</span>
+            <span className="app__body-bill-date">{formatDate(bill.date)}</span>
           </div>
         ))}
       </div>
