@@ -47,7 +47,7 @@ const removeBill = (cashName, setCash) => {
   }
 }
 
-export const renderCash = (cash) => (
+export const renderCash = (cash, editable = true) => (
   <>
     {!cash.length && <h1>no cash</h1>}
     {cash.length > 0 && cash.map((cash, index) => (
@@ -55,9 +55,9 @@ export const renderCash = (cash) => (
         <span className="app__body-cash-name">{cash.name}</span>
         <span className="app__body-cash-amount">${cash.amount}</span>
         <span className="app__body-cash-date">{formatDate(cash.date)}</span>
-        <button type="button" className="app__body-cash-remove" title="remove" onClick={() => removeBill(cash.name, setCash)}>
+        {editable && <button type="button" className="app__body-cash-remove" title="remove" onClick={() => removeBill(cash.name, setCash)}>
           <img src={CloseIcon} alt="remove cash"/>
-        </button>
+        </button>}
       </div>
     ))}
   </>
@@ -94,7 +94,7 @@ const BodyCash = () => {
     <div className="app__body-cash">
       {showForm && addCashForm(setShowForm, formData, updateForm, setFormData)}
       <div className="app__body-cash-container">
-        {renderCash(cash)}
+        {renderCash(cash, true)}
       </div>
       <div className="app__body-cash-footer">
         <button type="button" onClick={() => setShowForm(true)}>add cash</button>

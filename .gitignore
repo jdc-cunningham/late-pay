@@ -1,0 +1,6 @@
+# files
+.env
+
+# folders
+release-builds/
+node_modules/

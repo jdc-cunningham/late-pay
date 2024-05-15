@@ -5,10 +5,13 @@ import { getBills } from '../../../../utils/storage';
 
 const localStorageItemName = 'late-pay-bills-js';
 
-const setBills = (newBill, setShowForm, setFormData) => {
+const addBill = (newBill, setBills) => {
   const bills = getBills();
   localStorage.setItem(localStorageItemName, JSON.stringify([...bills, newBill]));
+  setBills(getBills());
+}
 
+const clearForm = (setFormData, setShowForm) => {
   setFormData({
     name: '',
     amount: 0,
@@ -18,13 +21,13 @@ const setBills = (newBill, setShowForm, setFormData) => {
   setShowForm(false);
 }
 
-const addBillsForm = (setShowForm, formData, updateForm, setFormData) => (
+const addBillsForm = (setShowForm, formData, updateForm, setBills) => (
   <div className="app__body-bills-form">
     <h2>bill info</h2>
     <input type="text" placeholder="name" value={formData.name} onChange={(e) => updateForm('name', e.target.value)}/>
     <input type="number" placeholder="amount" value={formData.amount} onChange={(e) => updateForm('amount', e.target.value)}/>
     <input type="date" placeholder="mm/dd/yyyy" value={formData.date} onChange={(e) => updateForm('date', e.target.value)}/>
-    <button className="app__body-bills-form-save" type="button" title="add bill" onClick={() => setBills(formData, setShowForm, setFormData)}>save</button>
+    <button className="app__body-bills-form-save" type="button" title="add bill" onClick={() => addBill(formData, setBills)}>save</button>
     <button className="app__body-bills-form-close" type="button" title="cancel" onClick={() => setShowForm(false)}>
       <img alt="close form" src={CloseIcon}/>
     </button>
@@ -47,7 +50,7 @@ const removeBill = (billName, setBills) => {
   }
 }
 
-export const renderBills = (bills) => (
+export const renderBills = (bills, editable = true, setBills) => (
   <>
     {!bills.length && <h1>no bills</h1>}
     {bills.length > 0 && bills.map((bill, index) => (
@@ -55,9 +58,9 @@ export const renderBills = (bills) => (
         <span className="app__body-bill-name">{bill.name}</span>
         <span className="app__body-bill-amount">${bill.amount}</span>
         <span className="app__body-bill-date">{formatDate(bill.date)}</span>
-        <button type="button" className="app__body-bill-remove" title="remove" onClick={() => removeBill(bill.name, setBills)}>
+        {editable && <button type="button" className="app__body-bill-remove" title="remove" onClick={() => removeBill(bill.name, setBills)}>
           <img src={CloseIcon} alt="remove bill"/>
-        </button>
+        </button>}
       </div>
     ))}
   </>
@@ -81,6 +84,10 @@ const BodyBills = () => {
   }
 
   useEffect(() => {
+    clearForm(setFormData, setShowForm);
+  }, [bills]);
+
+  useEffect(() => {
     if (!showForm) {
       setBills(getBills());
     }
@@ -92,9 +99,9 @@ const BodyBills = () => {
 
   return (
     <div className="app__body-bills">
-      {showForm && addBillsForm(setShowForm, formData, updateForm, setFormData)}
+      {showForm && addBillsForm(setShowForm, formData, updateForm, setBills)}
       <div className="app__body-bills-container">
-        {renderBills(bills)}
+        {renderBills(bills, true, setBills)}
       </div>
       <div className="app__body-bills-footer">
         <button type="button" onClick={() => setShowForm(true)}>add bill</button>
