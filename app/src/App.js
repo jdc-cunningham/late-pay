@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import './css-reset.css';
 import './App.css';
 
 import HeaderTabs from './components/header-tabs/HeaderTabs';
