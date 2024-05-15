@@ -9,6 +9,33 @@
 
 .app__body-home-bills, .app__body-home-cash {
   width: 50%;
-  display: block;
+  display: flex;
+  flex-direction: column;
   padding: 0.5rem;
+
+  h2 {
+    flex: 0;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  h3 {
+    flex: 0;
+    font-size: 1.5rem;
+    text-align: right;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+.app__body-home-bill-rows, .app__body-home-cash-rows {
+  display: block;
+  height: calc(100vh - 172px);
+  overflow: hidden auto;
+
+  .app__body-bill, .app__body-cash-row {
+    &:not(:first-of-type) {
+      margin-top: 0.5rem;
+    }
+  }
 }
