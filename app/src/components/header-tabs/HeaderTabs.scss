@@ -1,0 +1,36 @@
+.app__header-tabs {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  width: 100%;
+  height: auto;
+  flex: 0;
+}
+
+.app__header-tab {
+  font-size: 2rem;
+  padding: 0.5rem 1rem;
+  margin-bottom: -2px;
+  z-index: 1;
+  cursor: pointer;
+
+  &.active, &:hover {
+    border: 2px solid #282828;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-color: white;
+  }
+
+  &:hover {
+    background-color: #dcdcdc;
+  }
+
+  &:first-of-type {
+    margin-left: 1rem;
+  }
+
+  &:not(:first-of-type) {
+    margin-left: 0.5rem;
+  }
+}
