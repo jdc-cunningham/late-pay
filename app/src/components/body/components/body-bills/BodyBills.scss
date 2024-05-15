@@ -71,6 +71,9 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   border: 0;
 
@@ -83,7 +86,7 @@
 .app__body-bills-container {
   display: block;
   width: 100%;
-  overflow: scroll;
+  overflow: hidden auto;
   padding: 0.5rem;
 }
 
@@ -111,4 +114,20 @@
 .app__body-bill-date {
   flex: 1;
   text-align: right;
+}
+
+.app__body-bill-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+  margin-left: 0.5rem;
+  padding: 0;
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }

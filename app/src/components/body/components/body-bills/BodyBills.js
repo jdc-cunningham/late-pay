@@ -44,6 +44,15 @@ const formatDate = (date) => {
   return `${months[parseInt(dateParts[1])]} ${dateParts[2]}`;
 }
 
+const removeBill = (billName, setBills) => {
+  if (window.confirm("Delete bill " + billName + "?")) {
+    const bills = getBills();
+
+    localStorage.setItem(localStorageItemName, JSON.stringify(bills.filter(bill => bill.name !== billName)));
+    setBills(getBills());
+  }
+}
+
 const BodyBills = () => {
   const [bills, setBills] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -81,6 +90,9 @@ const BodyBills = () => {
             <span className="app__body-bill-name">{bill.name}</span>
             <span className="app__body-bill-amount">${bill.amount}</span>
             <span className="app__body-bill-date">{formatDate(bill.date)}</span>
+            <button type="button" className="app__body-bill-remove" title="remove" onClick={() => removeBill(bill.name, setBills)}>
+              <img src={CloseIcon} alt="remove bill"/>
+            </button>
           </div>
         ))}
       </div>
