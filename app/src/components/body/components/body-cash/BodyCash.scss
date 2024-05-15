@@ -1,0 +1,133 @@
+.app__body-cash {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.app__body-cash-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: auto;
+  flex: 1;
+
+  h1 {
+    font-size: 2rem;
+  }
+}
+
+.app__body-cash-footer {
+  flex: 0;
+  padding: 1rem 0;
+
+  button {
+    font-size: 1.5rem;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+  }
+}
+
+.app__body-cash-form {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: white;
+
+  h2 {
+    font-size: 3rem;
+  }
+
+  input {
+    padding: 0.5rem;
+    font-size: 1.5rem;
+    margin-top: 0.5rem;
+  }
+
+  button {
+    cursor: pointer;
+  }
+}
+
+.app__body-cash-form-save {
+  font-size: 1.75rem;
+  background-color: transparent;
+  margin-top: 1rem;
+  border: 0;
+}
+
+.app__body-cash-form-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: 0;
+
+  img {
+    width: 3rem;
+    height: 3rem;
+  }
+}
+
+.app__body-cash-container {
+  display: block;
+  width: 100%;
+  overflow: hidden auto;
+  padding: 0.5rem;
+}
+
+.app__body-cash-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  border: 2px solid #282828;
+  border-radius: 8px;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.app__body-cash-name {
+  flex: 3;
+}
+
+.app__body-cash-amount {
+  flex: 1;
+  text-align: center;
+}
+
+.app__body-cash-date {
+  flex: 1;
+  text-align: right;
+}
+
+.app__body-cash-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0;
+  margin-left: 0.5rem;
+  padding: 0;
+
+  img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+}
