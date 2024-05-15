@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import './BodyBills.scss';
-
 import CloseIcon from '../../../../assets/icons/close-round-icon.svg';
+import { getBills } from '../../../../utils/storage';
 
 const localStorageItemName = 'late-pay-bills-js';
-
-const getBills = () => {
-  const bills = localStorage.getItem(localStorageItemName);
-
-  return bills ? JSON.parse(bills) : [];
-}
 
 const setBills = (newBill, setShowForm, setFormData) => {
   const bills = getBills();
@@ -53,6 +47,22 @@ const removeBill = (billName, setBills) => {
   }
 }
 
+export const renderBills = (bills) => (
+  <>
+    {!bills.length && <h1>no bills</h1>}
+    {bills.length > 0 && bills.map((bill, index) => (
+      <div key={index} className="app__body-bill">
+        <span className="app__body-bill-name">{bill.name}</span>
+        <span className="app__body-bill-amount">${bill.amount}</span>
+        <span className="app__body-bill-date">{formatDate(bill.date)}</span>
+        <button type="button" className="app__body-bill-remove" title="remove" onClick={() => removeBill(bill.name, setBills)}>
+          <img src={CloseIcon} alt="remove bill"/>
+        </button>
+      </div>
+    ))}
+  </>
+);
+
 const BodyBills = () => {
   const [bills, setBills] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -84,17 +94,7 @@ const BodyBills = () => {
     <div className="app__body-bills">
       {showForm && addBillsForm(setShowForm, formData, updateForm, setFormData)}
       <div className="app__body-bills-container">
-        {!bills.length && <h1>no bills</h1>}
-        {bills.length > 0 && bills.map((bill, index) => (
-          <div key={index} className="app__body-bill">
-            <span className="app__body-bill-name">{bill.name}</span>
-            <span className="app__body-bill-amount">${bill.amount}</span>
-            <span className="app__body-bill-date">{formatDate(bill.date)}</span>
-            <button type="button" className="app__body-bill-remove" title="remove" onClick={() => removeBill(bill.name, setBills)}>
-              <img src={CloseIcon} alt="remove bill"/>
-            </button>
-          </div>
-        ))}
+        {renderBills(bills)}
       </div>
       <div className="app__body-bills-footer">
         <button type="button" onClick={() => setShowForm(true)}>add bill</button>

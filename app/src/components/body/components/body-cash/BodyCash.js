@@ -1,15 +1,9 @@
 import { useState, useEffect } from 'react';
 import './BodyCash.scss';
-
 import CloseIcon from '../../../../assets/icons/close-round-icon.svg';
+import { getCash } from '../../../../utils/storage';
 
 const localStorageItemName = 'late-pay-cash-js';
-
-const getCash = () => {
-  const cash = localStorage.getItem(localStorageItemName);
-
-  return cash ? JSON.parse(cash) : [];
-}
 
 const setCash = (newBill, setShowForm, setFormData) => {
   const cash = getCash();
@@ -53,6 +47,22 @@ const removeBill = (cashName, setCash) => {
   }
 }
 
+export const renderCash = (cash) => (
+  <>
+    {!cash.length && <h1>no cash</h1>}
+    {cash.length > 0 && cash.map((cash, index) => (
+      <div key={index} className="app__body-cash-row">
+        <span className="app__body-cash-name">{cash.name}</span>
+        <span className="app__body-cash-amount">${cash.amount}</span>
+        <span className="app__body-cash-date">{formatDate(cash.date)}</span>
+        <button type="button" className="app__body-cash-remove" title="remove" onClick={() => removeBill(cash.name, setCash)}>
+          <img src={CloseIcon} alt="remove cash"/>
+        </button>
+      </div>
+    ))}
+  </>
+);
+
 const BodyCash = () => {
   const [cash, setCash] = useState([]);
   const [showForm, setShowForm] = useState(false);
@@ -84,17 +94,7 @@ const BodyCash = () => {
     <div className="app__body-cash">
       {showForm && addCashForm(setShowForm, formData, updateForm, setFormData)}
       <div className="app__body-cash-container">
-        {!cash.length && <h1>no cash</h1>}
-        {cash.length > 0 && cash.map((cash, index) => (
-          <div key={index} className="app__body-cash-row">
-            <span className="app__body-cash-name">{cash.name}</span>
-            <span className="app__body-cash-amount">${cash.amount}</span>
-            <span className="app__body-cash-date">{formatDate(cash.date)}</span>
-            <button type="button" className="app__body-cash-remove" title="remove" onClick={() => removeBill(cash.name, setCash)}>
-              <img src={CloseIcon} alt="remove cash"/>
-            </button>
-          </div>
-        ))}
+        {renderCash(cash)}
       </div>
       <div className="app__body-cash-footer">
         <button type="button" onClick={() => setShowForm(true)}>add cash</button>

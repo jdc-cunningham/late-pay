@@ -6,8 +6,8 @@ import HeaderTabs from './components/header-tabs/HeaderTabs';
 import Body from './components/body/Body';
 
 function App() {
-  const tabs = ['bills', 'cash'];
-  const [activeTab, setActiveTab] = useState('bills');
+  const tabs = ['home', 'bills', 'cash'];
+  const [activeTab, setActiveTab] = useState('home');
 
   return (
     <div className="app">
