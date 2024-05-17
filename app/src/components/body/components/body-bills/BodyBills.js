@@ -14,8 +14,8 @@ const addBill = (newBill, setBills) => {
 const clearForm = (setFormData, setShowForm) => {
   setFormData({
     name: '',
-    amount: 0,
-    date: ''
+    amount: '', // want to see placeholder
+    daysLate: ''
   });
 
   setShowForm(false);
@@ -26,7 +26,7 @@ const addBillsForm = (setShowForm, formData, updateForm, setBills) => (
     <h2>bill info</h2>
     <input type="text" placeholder="name" value={formData.name} onChange={(e) => updateForm('name', e.target.value)}/>
     <input type="number" placeholder="amount" value={formData.amount} onChange={(e) => updateForm('amount', e.target.value)}/>
-    <input type="date" placeholder="mm/dd/yyyy" value={formData.date} onChange={(e) => updateForm('date', e.target.value)}/>
+    <input type="number" placeholder="days late" value={formData.daysLate} onChange={(e) => updateForm('daysLate', e.target.value)}/>
     <button className="app__body-bills-form-save" type="button" title="add bill" onClick={() => addBill(formData, setBills)}>save</button>
     <button className="app__body-bills-form-close" type="button" title="cancel" onClick={() => setShowForm(false)}>
       <img alt="close form" src={CloseIcon}/>
@@ -53,11 +53,12 @@ const removeBill = (billName, setBills) => {
 export const renderBills = (bills, editable = true, setBills) => (
   <>
     {!bills.length && <h1>no bills</h1>}
-    {bills.length > 0 && bills.map((bill, index) => (
+    {/* https://stackoverflow.com/a/42815997/2710227 */}
+    {bills.length > 0 && bills.sort((a, b) => b.daysLate - a.daysLate).map((bill, index) => (
       <div key={index} className="app__body-bill">
         <span className="app__body-bill-name">{bill.name}</span>
         <span className="app__body-bill-amount">${bill.amount}</span>
-        <span className="app__body-bill-date">{formatDate(bill.date)}</span>
+        <span className="app__body-bill-date">{bill.daysLate}</span>
         {editable && <button type="button" className="app__body-bill-remove" title="remove" onClick={() => removeBill(bill.name, setBills)}>
           <img src={CloseIcon} alt="remove bill"/>
         </button>}
@@ -72,8 +73,8 @@ const BodyBills = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    amount: 0,
-    date: ''
+    amount: '', // placeholders
+    daysLate: ''
   });
 
   const updateForm = (name, value) => {
